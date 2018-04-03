@@ -1,5 +1,7 @@
 package components;
 
+import java.util.List;
+
 /**
  * 
  * The base class for representing the state of an Othello board.
@@ -124,16 +126,39 @@ public abstract class Board<T> implements Cloneable {
 	public abstract int countValidMoves(T t);
 	
 	/**
+	 * Returns the valid moves for the specified color (black or white) expressed as {@link Coordinate} objects
+	 * 
+	 * @param t - an object representing the color to check. 
+	 * </br>
+	 * (Please use {@link Color} enums. See {@link Board} as to why.)
+	 * @return the valid moves for the specified color in a list, given the board's current configuration
+	 */
+	public abstract List<Coordinate> getValidMoves(T t);
+	
+	/**
 	 * Returns a string representation of the {@link Board}'s current configuration
 	 */
 	@Override
 	public abstract String toString();
 	
 	/**
+	 * You can ignore this method, which is why it's implemented here to return the normal {@link #toString()}.
+	 * If you want, you can override it to place special characters in the locations where there are valid moves for the specified Color.
+	 * 
+	 * @param t - the color to get valid moves for 
+	 * </br>
+	 * (passing {@link Color#B} would indicate the possible locations to place a black piece)
+	 * @return a string representation of the Board
+	 */
+	public String toString(T t) {
+		return toString();
+	}
+	
+	/**
 	 * Creates a copy of {@link Board} on which this method is called.
 	 * 
 	 * </br></br>
-	 * If anyone needs help implementing this method, let me know! It'll be helpful for {@link Player#makeMove(Board)}.
+	 * If anyone needs help implementing this method, let me know! It's helpful for implementing {@link Player#makeMove(Board)}.
 	 */
 	@Override
 	public abstract Board<T> clone();
