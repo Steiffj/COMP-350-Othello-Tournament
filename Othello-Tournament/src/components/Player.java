@@ -75,5 +75,5 @@ public abstract class Player {
 	 * 
 	 * @see Coordinate
 	 */
-	public abstract Coordinate makeMove(Board<?> board);
+	public abstract Coordinate makeMove(Board board);
 }

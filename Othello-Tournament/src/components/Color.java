@@ -28,5 +28,18 @@ public enum Color {
 	 * Indicates that there is no piece present at the given location
 	 * (This is an alternative to using <i>null</i> to point to an empty object on a board)
 	 */
-	EMPTY
+	EMPTY;
+	
+	public Color flip() {
+		switch(this) {
+		case B:
+			return W;
+		case EMPTY:
+			return EMPTY;
+		case W:
+			return B;
+		default:
+			return EMPTY;
+		}
+	}
 }

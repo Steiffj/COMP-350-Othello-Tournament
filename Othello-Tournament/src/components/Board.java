@@ -12,30 +12,9 @@ import java.util.List;
  * </br></br>
  * Classes derived from Board should be declared as follows:
  * 
- * <pre>
- * 	// Do this!
- * 	public class YourBoardClassName extends Board{@literal <}Color{@literal >} { ... }
- * </pre>
- * 
- * Technically, you can put any type parameter within the angled brackets to represent the two-sided Othello pieces.
- * </br>
- * <b>But... please don't... it'll make everyone's lives easier if you use the Color enums :)</b>
- * 
- * <pre>
- * 	// Do this if you want to everyone to get annoyed with you, and things will get confusing fast
- * 	public class YourBoardClassName extends Board{@literal <}colorLikeClass{@literal >} { ... } 
- * 
- * 	// Or this to be even more annoying and confusing...
- * 	public class YourBoardClassName{@literal <}T extends colorLikeClass{@literal >} extends Board{@literal <}colorLikeClass{@literal >} { ... } 
- * </pre>
- * 
- * (These approaches are potentially useful, but will almost certainly be more trouble than they're worth within the scope of the Othello assignment.)
- * </br></br>
- * 
- * @param <T> - an object that represents the color of a piece on the board (should be a {@link Color} enum)
  * @see Color
  */
-public abstract class Board<T> implements Cloneable {
+public abstract class Board implements Cloneable {
 	/**
 	 * The length of one side of the board. (An Othello board is 8x8, so its width is 8.)
 	 */
@@ -53,7 +32,7 @@ public abstract class Board<T> implements Cloneable {
 	 * You'll just have to copy the contents field into another data structure if copying from one Board object to another. 
 	 * Another option is to use a secondary data structure for evaluations within your class that implements {@link Player}.
 	 */
-	protected T[][] contents;
+	protected Color[][] contents;
 	
 	/**
 	 * Standard constructor for the Board class. ({@link #width} should be 8 for an Othello board.)
@@ -89,7 +68,7 @@ public abstract class Board<T> implements Cloneable {
 	 * This can be useful for validity check in outside code if an implementation of this method prevents placing a piece on the board if a piece is already at that position, 
 	 * or if it checks whether or not a move is legal under the rules of Othello (which it probably should at some point).
 	 * 
-	 * @param t - the {@link Color} to add to the board 
+	 * @param c - the {@link Color} to add to the board 
 	 * </br>
 	 * (or color-like object... see {@link Board} class documentation for an explanation of why you should use {@link Color})
 	 * @param coord - the position on the board to place the piece (represented as a row-column pair in a Coordinate object)
@@ -97,7 +76,7 @@ public abstract class Board<T> implements Cloneable {
 	 * @see Color
 	 * @see Coordinate
 	 */
-	public abstract boolean set(T t, Coordinate coord);
+	public abstract boolean set(Color c, Coordinate coord);
 	
 	/**
 	 * Retrieves a piece on the board from the specified {@link Coordinate}.
@@ -106,7 +85,7 @@ public abstract class Board<T> implements Cloneable {
 	 * 
 	 * @see Coordinate
 	 */
-	public abstract T get(Coordinate coord);
+	public abstract Color get(Coordinate coord);
 	
 	/**
 	 * Sets up the {@link Board} so that it's configured to start a new game.
@@ -118,22 +97,22 @@ public abstract class Board<T> implements Cloneable {
 	/**
 	 * Returns the number of valid moves for the specified color (black or white)
 	 * 
-	 * @param t - an object representing the color to check. 
+	 * @param c - an object representing the color to check. 
 	 * </br>
 	 * (Please use {@link Color} enums. See {@link Board} as to why.)
 	 * @return the number of valid moves for the specified color, given the board's current configuration
 	 */
-	public abstract int countValidMoves(T t);
+	public abstract int countValidMoves(Color c);
 	
 	/**
 	 * Returns the valid moves for the specified color (black or white) expressed as {@link Coordinate} objects
 	 * 
-	 * @param t - an object representing the color to check. 
+	 * @param c - an object representing the color to check. 
 	 * </br>
 	 * (Please use {@link Color} enums. See {@link Board} as to why.)
 	 * @return the valid moves for the specified color in a list, given the board's current configuration
 	 */
-	public abstract List<Coordinate> getValidMoves(T t);
+	public abstract List<Coordinate> getValidMoves(Color c);
 	
 	/**
 	 * Returns a string representation of the {@link Board}'s current configuration
@@ -145,12 +124,12 @@ public abstract class Board<T> implements Cloneable {
 	 * You can ignore this method, which is why it's implemented here to return the normal {@link #toString()}.
 	 * If you want, you can override it to place special characters in the locations where there are valid moves for the specified Color.
 	 * 
-	 * @param t - the color to get valid moves for 
+	 * @param c - the color to get valid moves for 
 	 * </br>
 	 * (passing {@link Color#B} would indicate the possible locations to place a black piece)
 	 * @return a string representation of the Board
 	 */
-	public String toString(T t) {
+	public String toString(Color c) {
 		return toString();
 	}
 	
@@ -161,5 +140,5 @@ public abstract class Board<T> implements Cloneable {
 	 * If anyone needs help implementing this method, let me know! It's helpful for implementing {@link Player#makeMove(Board)}.
 	 */
 	@Override
-	public abstract Board<T> clone();
+	public abstract Board clone();
 }
