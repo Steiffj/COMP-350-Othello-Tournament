@@ -63,15 +63,12 @@ public abstract class Board implements Cloneable {
 	/**
 	 * Places a {@link Color} at the specified {@link Coordinate} on the {@link Board}.
 	 * 
-	 * </br></br>
-	 * Returns <b><i>true</i></b> or <b><i>false</i></b> to indicate whether or not the method succeeded in placing the color. 
+	 * @param c - the {@link Color} to add to the board 
+	 * @param coord - the position on the board to place the piece (represented as a row-column pair in a Coordinate object)
+	 * 
+	 * @return <b><i>true</i></b> or <b><i>false</i></b> to indicate whether or not the method succeeded in placing the color. 
 	 * This can be useful for validity check in outside code if an implementation of this method prevents placing a piece on the board if a piece is already at that position, 
 	 * or if it checks whether or not a move is legal under the rules of Othello (which it probably should at some point).
-	 * 
-	 * @param c - the {@link Color} to add to the board 
-	 * </br>
-	 * (or color-like object... see {@link Board} class documentation for an explanation of why you should use {@link Color})
-	 * @param coord - the position on the board to place the piece (represented as a row-column pair in a Coordinate object)
 	 * 
 	 * @see Color
 	 * @see Coordinate
@@ -97,9 +94,8 @@ public abstract class Board implements Cloneable {
 	/**
 	 * Returns the number of valid moves for the specified color (black or white)
 	 * 
-	 * @param c - an object representing the color to check. 
-	 * </br>
-	 * (Please use {@link Color} enums. See {@link Board} as to why.)
+	 * @param c - an {@link Color} enum representing the color to check. 
+	 * 
 	 * @return the number of valid moves for the specified color, given the board's current configuration
 	 */
 	public abstract int countValidMoves(Color c);
@@ -107,12 +103,99 @@ public abstract class Board implements Cloneable {
 	/**
 	 * Returns the valid moves for the specified color (black or white) expressed as {@link Coordinate} objects
 	 * 
-	 * @param c - an object representing the color to check. 
-	 * </br>
-	 * (Please use {@link Color} enums. See {@link Board} as to why.)
+	 * @param c - an {@link Color} enum representing the color to check. 
+	 * 
 	 * @return the valid moves for the specified color in a list, given the board's current configuration
 	 */
 	public abstract List<Coordinate> getValidMoves(Color c);
+	
+	/**
+	 * Returns the winner of a game of Othello played on the current Board, if it has reached a game over state.
+	 * </br></br>
+	 * This method relies on the implementation of {@link #countValidMoves(Color)} working correctly.
+	 * 
+	 * @return the {@link Color} that won the game. (Returns {@link Color#EMPTY} if the game isn't over yet.)
+	 */
+	public Color winner() {
+		
+		if(isGameOver()) {
+			
+			int blackCount = 0;
+			int whiteCount = 0;
+			
+			for (Color[] row : contents) {
+				for (Color piece : row) {
+					switch(piece) {
+					case B:
+						blackCount++;
+						break;
+					case W:
+						whiteCount++;
+						break;
+					default:
+						break;
+					}
+				}
+			}
+			
+			if (blackCount == whiteCount) {
+				return Color.EMPTY;
+			}
+			return blackCount > whiteCount ? Color.B : Color.W;
+		} else {
+			return Color.EMPTY;
+		}
+	}
+	
+	/**
+	 * 
+	 * Checks if a game of Othello is over, based on the current contents of the Board.
+	 * 
+	 * </br></br>
+	 * This method relies on the implementation of {@link #countValidMoves(Color)} working correctly.
+	 * 
+	 * @return <b><i>true</i></b> if the game is over, <b><i>false</i></b> if it's not over
+	 */
+	public boolean isGameOver() {
+		
+		// Check if all squares on the board are occupied
+		boolean isFull = true;
+		for (Color[] row : contents) {
+			for (Color piece : row) {
+				isFull = isFull && (piece != Color.EMPTY);
+			}
+		}
+		
+		if (isFull) {
+			// Board is full
+			return true;
+		} else {
+			//Board isn't full
+			if (this.countValidMoves(Color.B) == 0 && countValidMoves(Color.W) == 0) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
+	
+	/**
+	 * Counts the number of pieces of a particular color on a board.
+	 * 
+	 * @param c the {@link Color} to count on the Board
+	 * @return the number of pieces on the Board of the specified {@link Color}
+	 */
+	public int countPieces(Color c) {
+		int count = 0;
+		for (Color[] row : contents) {
+			for (Color piece : row) {
+				if (piece == c) {
+					count++;
+				}
+			}
+		}
+		return count;
+	}
 	
 	/**
 	 * Returns a string representation of the {@link Board}'s current configuration
