@@ -1,12 +1,14 @@
-package examples;
+package game;
 
 import java.util.Scanner;
 
 import components.Board;
 import components.Color;
 import components.Coordinate;
-import components.OthelloBoard;	// Replace with the your own class derived from Board
+import components.OthelloBoard;
 import components.Player;
+import players.Human;
+import players.StupidAI;
 
 public class Game {
 	
@@ -23,9 +25,18 @@ public class Game {
 	 */
 	public static void playTournament(int numRounds) {
 		int currentRound = 0;
+		boolean swap = false;
 		while (currentRound++ < numRounds) {
+			
 			System.out.println("\n\n====== Game " + currentRound + " of " + numRounds + " ======\n");
-			playGame();
+			playGame(swap);
+			
+			if (currentRound < numRounds) {
+				System.out.print("\nSwitch who goes first for the next game? (y/n): ");
+				if (sc.nextLine().matches("[Yy][Ee]?[Ss]?")) {
+					swap = true;
+				}
+			}
 		}
 	}
 	
@@ -33,12 +44,24 @@ public class Game {
 	 * Plays one full game of Othello. 
 	 * Set up the different Players here!
 	 */
-	public static Color playGame() {
-		Board gameBoard = new OthelloBoard();	// Replace OthelloBoard() with your class that derives from Board
+	public static Player playGame(boolean swap) {
+		Board gameBoard = new OthelloBoard();
 		
-		// Instantiate Player AIs from desired classes
-		Player p1 = new StupidAI("Player 1", Color.B);
-		Player p2 = new StupidAI("The Artificial Unintelligent", Color.W);
+		/*
+		 * Instantiate Player AIs from desired classes
+		 * Just change to Player types and names as desired
+		 */
+		Player p1;
+		Player p2;
+		
+		if(swap) {
+			p1 = new StupidAI("The Artificial Unintelligent", Color.W);
+			p2 = new Human("Player 1", Color.B);
+		} else {
+			p1 = new Human("Player 1", Color.B);
+			p2 = new StupidAI("The Artificial Unintelligent", Color.W);
+		}
+
 		
 		int currentTurn = 1;
 		
@@ -59,10 +82,10 @@ public class Game {
 					p2.getName() + ", playing as " + p2.getColor()));
 		}
 		
-		System.out.println(p1.getColor() + " total: " + gameBoard.countPieces(p1.getColor()));
-		System.out.println(p2.getColor() + " total: " + gameBoard.countPieces(p2.getColor()));
+		System.out.println("\t" + p1.getColor() + " total: " + gameBoard.countPieces(p1.getColor()));
+		System.out.println("\t" + p2.getColor() + " total: " + gameBoard.countPieces(p2.getColor()));
 		
-		return gameBoard.winner();
+		return p1.getColor() == gameBoard.winner() ? p1 : p2;
 	}
 	
 	/**
@@ -107,15 +130,15 @@ public class Game {
 	}
 	
 	/**
-	 * Makes Coordinates easier to read for debugging.
+	 * Makes Coordinates easier to read for debugging
 	 * @param coord the Coordinate to convert
-	 * @return
+	 * @return 
 	 */
 	public static String convertCoordinate(Coordinate coord) {
 		String humanCoord = "";
 		
 		humanCoord += "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("")[coord.getCol()];
-		humanCoord += (coord.getRow() - 1);
+		humanCoord += (coord.getRow() + 1);
 		
 		return humanCoord;
 	}

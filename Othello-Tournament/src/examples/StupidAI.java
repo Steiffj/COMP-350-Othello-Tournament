@@ -1,4 +1,4 @@
-package examples;
+package players;
 
 import java.util.List;
 import java.util.Random;
@@ -14,9 +14,6 @@ public class StupidAI extends Player {
 		super(name, color);
 	}
 	
-	/**
-	 * This AI just randomly choses a move from its list of valid options.
-	 */
 	@Override
 	public Coordinate makeMove(Board board) {
 		Random rand = new Random();

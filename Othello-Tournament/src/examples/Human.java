@@ -1,4 +1,4 @@
-package examples;
+package players;
 
 import java.util.Scanner;
 
