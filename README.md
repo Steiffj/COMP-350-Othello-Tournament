@@ -10,3 +10,8 @@
     * Select "Copy files and folders" if prompted
 * Use Eclipse (or any IDE that supports Javadoc). All the source code has lots of information that will show up in the tool tips when you start using them!
   * I'll be a little bit sad if nobody reads the Javadoc :pensive: I probably spent more time on it than on the code itself
+  
+#### Examples
+* The folder [examples](https://github.com/Steiffj/COMP-350-Othello-Tournament/tree/master/Othello-Tournament/src/examples) now has some files in it that you can use a basis for your own code.
+* I've set up [Game.java](https://github.com/Steiffj/COMP-350-Othello-Tournament/blob/master/Othello-Tournament/src/examples/Game.java) so it plays a best-of-three tournament between two Players.
+* If you want a person to play against an AI, use [Human.java](https://github.com/Steiffj/COMP-350-Othello-Tournament/blob/master/Othello-Tournament/src/examples/Human.java). Two people can also play against each other if both Players are instantiated as Human.
