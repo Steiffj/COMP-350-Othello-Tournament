@@ -20,7 +20,7 @@ public abstract class Player {
 	 * Indicates which {@link Color} (either {@link Color#B} or {@link Color#W}) the player is for the current game.
 	 * @see Color
 	 */
-	protected final Color color;
+	protected Color color;
 	
 	/**
 	 * Standard constructor for the {@link Player} class
@@ -43,6 +43,14 @@ public abstract class Player {
 	 */
 	public Color getColor() {
 		return color;
+	}
+	
+	public void setColor(Color color) {
+		this.color = color;
+	}
+	
+	public void swapColor() {
+		color = color.flip();
 	}
 	
 	/**

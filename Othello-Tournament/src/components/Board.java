@@ -61,6 +61,14 @@ public abstract class Board implements Cloneable {
 	}
 	
 	/**
+	 * 
+	 * @return {@link #contents}
+	 */
+	public Color[][] getContents() {
+		return contents;
+	}
+	
+	/**
 	 * Places a {@link Color} at the specified {@link Coordinate} on the {@link Board}.
 	 * 
 	 * @param c - the {@link Color} to add to the board 
