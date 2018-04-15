@@ -224,6 +224,34 @@ public abstract class Board implements Cloneable {
 		return toString();
 	}
 	
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		
+		if (!(o instanceof Board)) {
+			return false;
+		} else {
+			Board b = (Board) o;
+			if (contents.length == b.contents.length) {
+				for (int row = 0; row < contents.length; row++) {
+					if (contents[row].length == b.contents[row].length) {
+						for (int col = 0; col < contents[row].length; col++) {
+							if (contents[row][col] != b.contents[row][col]) {
+								return false;
+							}
+						}
+					} else {
+						return false;
+					}
+				}
+			} else {
+				return false;
+			}
+			return true;
+		}
+	}
+	
 	/**
 	 * Creates a copy of {@link Board} on which this method is called.
 	 * 
